@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Theories of Failure & Sizing Calculator</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, sans-serif; }
+    body { background-color: #0f172a; color: #e2e8f0; padding: 25px 15px; }
+    .container { max-width: 800px; margin: 0 auto; }
+    h1 { text-align: center; margin-bottom: 20px; color: #f8fafc; font-size: 22px; font-weight: 700; }
+    .tabs { display: flex; gap: 8px; margin-bottom: 16px; justify-content: center; }
+    .tab-btn { padding: 8px 16px; border: 1px solid #334155; background: #1e293b; border-radius: 6px; cursor: pointer; font-size: 14px; font-weight: 600; color: #94a3b8; }
+    .tab-btn.active { background: #2563eb; color: #fff; border-color: #2563eb; }
+    .card { background: #1e293b; border-radius: 8px; padding: 20px; box-shadow: 0 4px 12px rgba(0,0,0,0.25); border: 1px solid #334155; }
+    .form-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 12px; margin-bottom: 15px; }
+    label { display: block; font-size: 13px; font-weight: 600; margin-bottom: 5px; color: #94a3b8; }
+    input, select { width: 100%; padding: 8px 10px; border: 1px solid #475569; border-radius: 6px; font-size: 14px; background: #0f172a; color: #f8fafc; }
+    input:focus, select:focus { outline: none; border-color: #38bdf8; }
+    button.submit-btn { width: 100%; background: #2563eb; color: white; border: none; padding: 10px; font-size: 14px; font-weight: 600; border-radius: 6px; cursor: pointer; }
+    button.submit-btn:hover { background: #1d4ed8; }
+    .result-box { margin-top: 18px; padding: 16px; border-radius: 6px; background: #0b1120; border: 1px solid #334155; display: none; }
+    .badge { display: inline-block; padding: 3px 8px; border-radius: 4px; font-size: 12px; font-weight: bold; }
+    .safe { background: #064e3b; color: #6ee7b7; border: 1px solid #059669; }
+    .unsafe { background: #4c0519; color: #fca5a5; border: 1px solid #e11d48; }
+    .principal-info { display: flex; flex-wrap: wrap; gap: 15px; font-size: 13px; margin: 10px 0; background: #1e293b; padding: 10px; border-radius: 6px; border: 1px solid #334155; color: #cbd5e1; }
+    .principal-info b { color: #38bdf8; }
+    table { width: 100%; border-collapse: collapse; margin-top: 12px; font-size: 13px; }
+    th, td { text-align: left; padding: 9px 10px; border-bottom: 1px solid #334155; color: #cbd5e1; }
+    th { background: #162032; color: #94a3b8; font-weight: 600; }
+    tr:last-child td { border-bottom: none; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Theories of Failure & Component Sizing</h1>
+    <div class="tabs">
+      <button class="tab-btn active" onclick="showTab('stress')">Stress & Factor of Safety</button>
+      <button class="tab-btn" onclick="showTab('dim')">Member Sizing</button>
+    </div>
+
+    <!-- Tab 1: Stress & FoS -->
+    <div id="stress-tab" class="card">
+      <form onsubmit="calculateStress(event)">
+        <div class="form-grid">
+          <div><label>Material</label><select id="mat-stress" required></select></div>
+          <div><label>&sigma;<sub>x</sub> (MPa)</label><input type="number" id="sx" value="120" step="any" required></div>
+          <div><label>&sigma;<sub>y</sub> (MPa)</label><input type="number" id="sy" value="40" step="any" required></div>
+          <div><label>&tau;<sub>xy</sub> (MPa)</label><input type="number" id="txy" value="65" step="any" required></div>
+        </div>
+        <button type="submit" class="submit-btn">Calculate Safety Factors</button>
+      </form>
+      <div id="stress-res" class="result-box">
+        <div style="display:flex; justify-content:space-between; align-items:center;">
+          <h3 style="font-size:15px;">Governing Theory: <span id="gov-text" style="color:#38bdf8;"></span></h3>
+          <span id="safe-badge" class="badge"></span>
+        </div>
+        <div class="principal-info">
+          <span>&sigma;<sub>1</sub> = <b id="s1"></b> MPa</span>
+          <span>&sigma;<sub>2</sub> = <b id="s2"></b> MPa</span>
+          <span>&sigma;<sub>3</sub> = <b id="s3"></b> MPa</span>
+        </div>
+        <table>
+          <thead><tr><th>Failure Theory</th><th>Factor of Safety (FoS)</th></tr></thead>
+          <tbody id="stress-table-body"></tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- Tab 2: Dimensioning -->
+    <div id="dim-tab" class="card" style="display: none;">
+      <form onsubmit="calculateDim(event)">
+        <div class="form-grid">
+          <div><label>Material</label><select id="mat-dim" required></select></div>
+          <div><label>Moment M (kN&middot;m)</label><input type="number" id="M" value="3.5" step="any" required></div>
+          <div><label>Torque T (kN&middot;m)</label><input type="number" id="T" value="4.2" step="any" required></div>
+          <div><label>Target FoS</label><input type="number" id="fos" value="2.0" step="any" required></div>
+          <div>
+            <label>Cross Section</label>
+            <select id="shape" onchange="toggleAspect()">
+              <option value="circle">Circular (Shaft)</option>
+              <option value="square">Square</option>
+              <option value="rectangle">Rectangular</option>
+            </select>
+          </div>
+          <div id="aspect-field" style="display: none;">
+            <label>Aspect Ratio (h/b)</label><input type="number" id="aspect" value="1.5" step="any">
+          </div>
+        </div>
+        <button type="submit" class="submit-btn">Calculate Dimensions</button>
+      </form>
+      <div id="dim-res" class="result-box">
+        <h3 style="font-size:15px;">Recommended: <span id="rec-dim" style="color:#38bdf8;"></span></h3>
+        <p style="font-size:13px; color:#94a3b8; margin-top:4px;">Governing Theory: <span id="dim-gov" style="color:#e2e8f0;"></span></p>
+        <table>
+          <thead><tr><th>Theory</th><th>Required Size</th></tr></thead>
+          <tbody id="dim-table-body"></tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    function showTab(t) {
+      document.getElementById('stress-tab').style.display = t === 'stress' ? 'block' : 'none';
+      document.getElementById('dim-tab').style.display = t === 'dim' ? 'block' : 'none';
+      document.querySelectorAll('.tab-btn').forEach((b, i) => b.classList.toggle('active', (t === 'stress' ? 0 : 1) === i));
+    }
+    function toggleAspect() {
+      document.getElementById('aspect-field').style.display = document.getElementById('shape').value === 'rectangle' ? 'block' : 'none';
+    }
+    fetch('/materials').then(r => r.json()).then(mats => {
+      ['mat-stress', 'mat-dim'].forEach(id => {
+        const el = document.getElementById(id);
+        mats.forEach(m => { const opt = document.createElement('option'); opt.value = m; opt.textContent = m; el.appendChild(opt); });
+      });
+    });
+    function calculateStress(e) {
+      e.preventDefault();
+      fetch('/calculate', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          material: document.getElementById('mat-stress').value,
+          sx: document.getElementById('sx').value, sy: document.getElementById('sy').value, txy: document.getElementById('txy').value
+        })
+      }).then(r => r.json()).then(data => {
+        document.getElementById('stress-res').style.display = 'block';
+        document.getElementById('gov-text').textContent = data.governing;
+        const badge = document.getElementById('safe-badge');
+        badge.textContent = data.safe ? 'SAFE' : 'UNSAFE';
+        badge.className = 'badge ' + (data.safe ? 'safe' : 'unsafe');
+        document.getElementById('s1').textContent = data.principal[0];
+        document.getElementById('s2').textContent = data.principal[1];
+        document.getElementById('s3').textContent = data.principal[2];
+        document.getElementById('stress-table-body').innerHTML = data.results.map(r => `<tr><td>${r.theory}</td><td><b>${r.fos !== null ? r.fos : 'N/A'}</b></td></tr>`).join('');
+      });
+    }
+    function calculateDim(e) {
+      e.preventDefault();
+      fetch('/calculate_dimension', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          material: document.getElementById('mat-dim').value, M: document.getElementById('M').value, T: document.getElementById('T').value,
+          fos: document.getElementById('fos').value, shape: document.getElementById('shape').value, aspect_ratio: document.getElementById('aspect').value
+        })
+      }).then(r => r.json()).then(data => {
+        document.getElementById('dim-res').style.display = 'block';
+        document.getElementById('rec-dim').textContent = data.recommended_dim;
+        document.getElementById('dim-gov').textContent = data.governing;
+        document.getElementById('dim-table-body').innerHTML = data.results.map(r => `<tr><td>${r.theory}</td><td>${r.dim} ${r.unit || ''}</td></tr>`).join('');
+      });
+    }
+  </script>
+</body>
+</html>

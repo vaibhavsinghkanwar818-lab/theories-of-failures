@@ -1,0 +1,123 @@
+
+[
+    {
+        "id": "mat_01",
+        "name": "Structural Steel (A36)",
+        "category": "Steels",
+        "yield_strength_MPa": 250,
+        "ultimate_strength_MPa": 400,
+        "elastic_modulus_GPa": 200,
+        "poissons_ratio": 0.26,
+        "density_kg_m3": 7850
+    },
+    {
+        "id": "mat_02",
+        "name": "Mild Steel (AISI 1018)",
+        "category": "Steels",
+        "yield_strength_MPa": 370,
+        "ultimate_strength_MPa": 440,
+        "elastic_modulus_GPa": 205,
+        "poissons_ratio": 0.29,
+        "density_kg_m3": 7850
+    },
+    {
+        "id": "mat_03",
+        "name": "Stainless Steel (AISI 304)",
+        "category": "Stainless Steels",
+        "yield_strength_MPa": 215,
+        "ultimate_strength_MPa": 505,
+        "elastic_modulus_GPa": 193,
+        "poissons_ratio": 0.29,
+        "density_kg_m3": 8000
+    },
+    {
+        "id": "mat_04",
+        "name": "Aluminum 6061-T6",
+        "category": "Aluminum Alloys",
+        "yield_strength_MPa": 276,
+        "ultimate_strength_MPa": 310,
+        "elastic_modulus_GPa": 68.9,
+        "poissons_ratio": 0.33,
+        "density_kg_m3": 2700
+    },
+    {
+        "id": "mat_05",
+        "name": "Pure Copper",
+        "category": "Copper Alloys",
+        "yield_strength_MPa": 69,
+        "ultimate_strength_MPa": 220,
+        "elastic_modulus_GPa": 117,
+        "poissons_ratio": 0.34,
+        "density_kg_m3": 8890
+    },
+    {
+        "id": "mat_06",
+        "name": "Cartridge Brass",
+        "category": "Copper Alloys",
+        "yield_strength_MPa": 150,
+        "ultimate_strength_MPa": 360,
+        "elastic_modulus_GPa": 110,
+        "poissons_ratio": 0.375,
+        "density_kg_m3": 8530
+    },
+    {
+        "id": "mat_07",
+        "name": "Gray Cast Iron",
+        "category": "Cast Irons",
+        "yield_strength_MPa": 200,
+        "ultimate_strength_MPa": 214,
+        "elastic_modulus_GPa": 100,
+        "poissons_ratio": 0.26,
+        "density_kg_m3": 7150
+    },
+    {
+        "id": "mat_08",
+        "name": "ABS Plastic",
+        "category": "Polymers",
+        "yield_strength_MPa": 40,
+        "ultimate_strength_MPa": 45,
+        "elastic_modulus_GPa": 2.3,
+        "poissons_ratio": 0.35,
+        "density_kg_m3": 1040
+    },
+    {
+        "id": "mat_09",
+        "name": "PVC (Polyvinyl Chloride)",
+        "category": "Polymers",
+        "yield_strength_MPa": 50,
+        "ultimate_strength_MPa": 55,
+        "elastic_modulus_GPa": 2.4,
+        "poissons_ratio": 0.40,
+        "density_kg_m3": 1400
+    },
+    {
+        "id": "mat_10",
+        "name": "Nylon 6,6",
+        "category": "Polymers",
+        "yield_strength_MPa": 82,
+        "ultimate_strength_MPa": 85,
+        "elastic_modulus_GPa": 2.9,
+        "poissons_ratio": 0.39,
+        "density_kg_m3": 1140
+    },
+    {
+        "id": "mat_11",
+        "name": "Oak Wood",
+        "category": "Natural Materials",
+        "yield_strength_MPa": 40,
+        "ultimate_strength_MPa": 95,
+        "elastic_modulus_GPa": 12.5,
+        "poissons_ratio": 0.37,
+        "density_kg_m3": 750
+    },
+    {
+        "id": "mat_12",
+        "name": "Structural Concrete",
+        "category": "Civil Materials",
+        "yield_strength_MPa": 30,
+        "ultimate_strength_MPa": 35,
+        "elastic_modulus_GPa": 30,
+        "poissons_ratio": 0.20,
+        "density_kg_m3": 2400
+    }
+]
