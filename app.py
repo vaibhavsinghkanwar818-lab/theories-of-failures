@@ -172,11 +172,11 @@ def calculate_dimension():
   results = []
 
   if shape == 'circle':
-    d_rankine = ((32 * Me_rankine) / (math.pi * sig_allow)) ** (1 / 3) * 1e3
-    d_stvenant = ((32 * Me_stvenant) / (math.pi * sig_allow)) ** (1 / 3) * 1e3
-    d_tresca = ((16 * Te_tresca) / (math.pi * (0.5 * sig_allow))) ** (1 / 3) * 1e3
-    d_beltrami = ((32 * Me_beltrami) / (math.pi * sig_allow)) ** (1 / 3) * 1e3
-    d_mises = ((16 * Te_mises) / (math.pi * (0.5 * sig_allow))) ** (1 / 3) * 1e3
+    d_rankine = ((32 * Me_rankine) / (math.pi * sig_allow)) ** (1 / 3) * 10
+    d_stvenant = ((32 * Me_stvenant) / (math.pi * sig_allow)) ** (1 / 3) * 10
+    d_tresca = ((16 * Te_tresca) / (math.pi * (0.5 * sig_allow))) ** (1 / 3) * 10
+    d_beltrami = ((32 * Me_beltrami) / (math.pi * sig_allow)) ** (1 / 3) * 10
+    d_mises = ((16 * Te_mises) / (math.pi * (0.5 * sig_allow))) ** (1 / 3) * 10
 
     results = [
         {
@@ -211,11 +211,11 @@ def calculate_dimension():
         },
     ]
   elif shape == 'square':
-    a_rankine = ((6 * Me_rankine) / sig_allow) ** (1 / 3) * 1e3
-    a_stvenant = ((6 * Me_stvenant) / sig_allow) ** (1 / 3) * 1e3
-    a_tresca = ((6 * Te_tresca) / sig_allow) ** (1 / 3) * 1e3
-    a_beltrami = ((6 * Me_beltrami) / sig_allow) ** (1 / 3) * 1e3
-    a_mises = ((6 * Te_mises) / sig_allow) ** (1 / 3) * 1e3
+    a_rankine = ((6 * Me_rankine) / sig_allow) ** (1 / 3) * 10
+    a_stvenant = ((6 * Me_stvenant) / sig_allow) ** (1 / 3) * 10
+    a_tresca = ((6 * Te_tresca) / sig_allow) ** (1 / 3) * 10
+    a_beltrami = ((6 * Me_beltrami) / sig_allow) ** (1 / 3) * 10
+    a_mises = ((6 * Te_mises) / sig_allow) ** (1 / 3) * 10
 
     results = [
         {
@@ -251,11 +251,11 @@ def calculate_dimension():
     ]
   elif shape == 'rectangle':
     k = aspect_ratio
-    b_rankine = ((6 * Me_rankine) / (k ** 2 * sig_allow)) ** (1 / 3) * 1e3
-    b_stvenant = ((6 * Me_stvenant) / (k ** 2 * sig_allow)) ** (1 / 3) * 1e3
-    b_tresca = ((6 * Te_tresca) / (k ** 2 * sig_allow)) ** (1 / 3) * 1e3
-    b_beltrami = ((6 * Me_beltrami) / (k ** 2 * sig_allow)) ** (1 / 3) * 1e3
-    b_mises = ((6 * Te_mises) / (k ** 2 * sig_allow)) ** (1 / 3) * 1e3
+    b_rankine = ((6 * Me_rankine) / (k ** 2 * sig_allow)) ** (1 / 3) * 10
+    b_stvenant = ((6 * Me_stvenant) / (k ** 2 * sig_allow)) ** (1 / 3) * 10
+    b_tresca = ((6 * Te_tresca) / (k ** 2 * sig_allow)) ** (1 / 3) * 10
+    b_beltrami = ((6 * Me_beltrami) / (k ** 2 * sig_allow)) ** (1 / 3) * 10
+    b_mises = ((6 * Te_mises) / (k ** 2 * sig_allow)) ** (1 / 3) * 10
 
     results = [
         {
